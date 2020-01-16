@@ -1,8 +1,10 @@
 using System;
 using EwayBot.DAL.Context;
 using EwayBot.DAL.Entities;
+using EwayBot.DAL.Seeders;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
@@ -25,7 +27,18 @@ namespace EwayBot
 
                 Log.Information("Starting up");
 
-                CreateHostBuilder(args).Build().Run();
+                var builder = CreateHostBuilder(args).Build();
+                using (var scope = builder.Services.CreateScope())
+                {
+                    var services = scope.ServiceProvider;
+                    var context = services.GetService<ApplicationContext>();
+
+                    StopsSeeder seeder = new StopsSeeder();
+                    seeder.InitializeStops(context);
+                }
+
+
+                builder.Run();
             }
             catch (Exception ex)
             {

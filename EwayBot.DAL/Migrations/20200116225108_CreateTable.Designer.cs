@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EwayBot.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200112162129_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200116225108_CreateTable")]
+    partial class CreateTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,16 +22,14 @@ namespace EwayBot.DAL.Migrations
 
             modelBuilder.Entity("EwayBot.DAL.Entities.Stop", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<double>("Lat")
-                        .HasColumnType("float");
+                    b.Property<string>("Lat")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Lng")
-                        .HasColumnType("float");
+                    b.Property<string>("Lng")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
