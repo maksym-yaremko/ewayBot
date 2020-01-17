@@ -50,7 +50,7 @@ namespace EwayBot.DAL.Seeders
             if (!context.Stops.Any())
             {
                 for(int i = 0; i < ids.Count; i++) {
-                    context.Stops.Add(
+                    context.Stops.AddRange(
                         new Stop
                         {
                             Id = ids[i],
