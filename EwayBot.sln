@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EwayBot", "EwayBot\EwayBot.csproj", "{E5035995-75A9-48F3-8E8E-F79D8D565E45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EwayBot", "EwayBot\EwayBot.csproj", "{E5035995-75A9-48F3-8E8E-F79D8D565E45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EwayBot.BLL", "EwayBot.BLL\EwayBot.BLL.csproj", "{21B6E811-1240-4DE6-BD8A-96A57B8A349F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EwayBot.BLL", "EwayBot.BLL\EwayBot.BLL.csproj", "{21B6E811-1240-4DE6-BD8A-96A57B8A349F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EwayBot.DAL", "EwayBot.DAL\EwayBot.DAL.csproj", "{B16F85C1-20D5-4F77-B018-DD2149399144}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EwayBot.DAL", "EwayBot.DAL\EwayBot.DAL.csproj", "{B16F85C1-20D5-4F77-B018-DD2149399144}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EwayBot.DTO", "EwayBot.DTO\EwayBot.DTO.csproj", "{951D21F7-FA10-4696-864E-8F404887F4CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EwayBot.DTO", "EwayBot.DTO\EwayBot.DTO.csproj", "{951D21F7-FA10-4696-864E-8F404887F4CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

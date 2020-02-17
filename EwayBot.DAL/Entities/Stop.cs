@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EwayBot.DAL.Entities
+﻿namespace EwayBot.DAL.Entities
 {
     public class Stop
     {
