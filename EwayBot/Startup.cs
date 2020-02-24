@@ -1,4 +1,5 @@
 using EwayBot.BLL.EwayAPI;
+using EwayBot.BLL.Telegram;
 using EwayBot.DAL.Context;
 using EwayBot.Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -25,6 +26,8 @@ namespace EwayBot
                      options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
             services.Configure<EwayAPISettings>(options => Configuration.GetSection("Eway").Bind(options));
             services.Configure<TelegramSettings>(options => Configuration.GetSection("Telegram").Bind(options));
+            services.AddScoped<TelegramBotService>();
+            services.AddScoped<EwayAPIClient>();
             services.AddControllers();
         }
 

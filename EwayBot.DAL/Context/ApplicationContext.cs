@@ -9,16 +9,15 @@ namespace EwayBot.DAL.Context
 
         public ApplicationContext()
         {
-            Database.EnsureCreated();
         }
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Stop>().HasIndex(x => x.Title);
         }
     }
 }

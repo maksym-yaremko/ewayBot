@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using EwayBot.BLL.EwayAPI;
+using EwayBot.BLL.Telegram;
 using EwayBot.DAL.Context;
 using EwayBot.DAL.Seeders;
 using EwayBot.Infrastructure;
@@ -21,8 +22,8 @@ namespace EwayBot
     public class Program
     {
         private static TelegramBotClient bot;
-        private static ApplicationContext _context;
-        private static EwayAPIClient _client;
+        private static TelegramBotService service;
+
         public static void Main(string[] args)
         {
             Console.WriteLine("Eway bot has been started");
@@ -32,9 +33,7 @@ namespace EwayBot
                 var scope1 = builder.Services.CreateScope();
                 var services1 = scope1.ServiceProvider; 
                 var settings = services1.GetService<IOptions<TelegramSettings>>();
-                var ewaySettings = services1.GetService<IOptions<EwayAPISettings>>();
-                _context = services1.GetService<ApplicationContext>();
-                _client = new EwayAPIClient(ewaySettings);
+                service = services1.GetService<TelegramBotService>();
                 bot = new TelegramBotClient(settings.Value.APIToken);
                 bot.OnMessage += MessageHandler;
                 bot.OnCallbackQuery += BotOnCallbackQueryReceived;
@@ -108,7 +107,8 @@ namespace EwayBot
                 await bot.SendTextMessageAsync(e.Message.Chat.Id, "Вітаємо вас у LvivPublicTransportBot.Щоб отримати онлайн-табло просто введіть назву зупинки і виберіть її на мапі");
                 return;
             }
-            var stops = await _context.Stops.AsNoTracking().Where(x => x.Title.ToLower().Contains(e.Message.Text.ToLower())).ToListAsync();
+
+            var stops = await service.GetStopsByTitle(e.Message.Text);
             if (stops.Count == 0)
             {
                 await bot.SendTextMessageAsync(e.Message.Chat.Id, "Зупинки з такою назвою немає!");
@@ -133,7 +133,7 @@ namespace EwayBot
             var callbackQuery = callbackQueryEventArgs.CallbackQuery;
             var stopId = callbackQuery.Data;
 
-            var stopInfo = await _client.GetStopInfo(Int32.Parse(stopId));
+            var stopInfo = await service.GetStopInfo(Int32.Parse(stopId));
             var transports = stopInfo.stop.First().Transports.Transport;
             foreach (var transport in transports)
             {
