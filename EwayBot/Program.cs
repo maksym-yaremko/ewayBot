@@ -1,4 +1,5 @@
 using System;
+using EwayBot.BLL;
 using EwayBot.DAL.Context;
 using EwayBot.DAL.Entities;
 using EwayBot.DAL.Seeders;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Telegram.Bot;
 
 namespace EwayBot
 {
@@ -36,7 +38,6 @@ namespace EwayBot
                     StopsSeeder seeder = new StopsSeeder();
                     seeder.InitializeStops(context);
                 }
-
 
                 builder.Run();
             }
