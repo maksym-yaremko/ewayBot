@@ -9,7 +9,8 @@ namespace EwayBot.BLL
         {
             new StartCommand(),
             new InfoCommand(),
-            new SearchByStopNameCommand()
+            new SearchByStopNameCommand(),
+            new SimpleTextCommand()
         };
     }
 }

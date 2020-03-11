@@ -1,27 +1,28 @@
-﻿using EwayBot.BLL.Helpers;
-using EwayBot.DAL.Constants;
+﻿using EwayBot.DAL.Constants;
 using EwayBot.DAL.Services;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
 
 namespace EwayBot.BLL.Commands
 {
-    public class InfoCommand : ICommand
+    public class SimpleTextCommand : ICommand
     {
         public UserMessageService userMessageService { get; set; }
-        public InfoCommand()
+        public SimpleTextCommand()
         {
             userMessageService = new UserMessageService();
         }
-        public bool Contains(Message message,string previousMessage)
+        public bool Contains(Message message, string previousMessage)
         {
             if (message.Type != MessageType.Text)
                 return false;
 
-            return message.Text.Contains(Constants.Info);
+            return previousMessage.Contains(Constants.SearchByStopName);
         }
 
         public async Task Execute(Message message, TelegramBotClient botClient, string previousMessage)
@@ -38,11 +39,14 @@ namespace EwayBot.BLL.Commands
                 userMessageService.Update(chatId, message.Text);
             }
 
-
-
-            await botClient.SendTextMessageAsync(chatId, $"Тобі доступні наступні команди:\nПошук маршрутів за назвою зупинки /searchByStopName\nПошук за локацією\nПошуки наступні");
-
-
+            if(previousMessage == Constants.SearchByStopName)
+            {
+                await botClient.SendTextMessageAsync(chatId, $"Тут мають вивестись всі маршрутки по назві зупинки");
+            }
+            else
+            {
+                await botClient.SendTextMessageAsync(chatId, $"ERRROOOOR");
+            }
         }
     }
 }

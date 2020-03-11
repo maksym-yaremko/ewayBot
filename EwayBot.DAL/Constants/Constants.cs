@@ -5,5 +5,6 @@
         public static string Start = @"/start";
         public static string Info = @"/info";
         public static string SearchByStopName = @"/searchByStopName";
+        public static string StopName = @"stopName";
     }
 }

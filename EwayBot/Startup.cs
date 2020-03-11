@@ -1,5 +1,6 @@
 using EwayBot.BLL;
 using EwayBot.DAL.Context;
+using EwayBot.DAL.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
