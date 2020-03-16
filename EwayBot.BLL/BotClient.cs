@@ -19,7 +19,7 @@ namespace EwayBot.BLL
             }
 
             botClient = new TelegramBotClient("1096673257:AAGq_sGCLZ2z-g6IPdtsTuwTcfj1qt0DfGM");
-            string hook = string.Format("https://95943e9f.ngrok.io/api/message/update");
+            string hook = string.Format("https://bb605ff1.ngrok.io/api/message/update");
             await botClient.SetWebhookAsync(hook);
             return botClient;
         }

@@ -2,6 +2,8 @@
 using EwayBot.DAL.Services;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -41,7 +43,17 @@ namespace EwayBot.BLL.Commands
 
             if(previousMessage == Constants.SearchByStopName)
             {
-                await botClient.SendTextMessageAsync(chatId, $"Тут мають вивестись всі маршрутки по назві зупинки");
+                using var client = new HttpClient();
+                
+                StopService stopService = new StopService();
+                var locations = stopService.GetLocation(message.Text);
+
+                foreach(var location in locations)
+                {
+                    var result =await client.GetAsync(@$"https://api.eway.in.ua/?login=smoliakandriy&password=m3ns2h36frT9c2Aqj&function=stops.GetStopInfo&city=lviv&id={location.Item4}");
+                    var res = result.Content.ReadAsStringAsync();
+                    await botClient.SendVenueAsync(chatId, float.Parse(location.Item1, CultureInfo.InvariantCulture.NumberFormat), float.Parse(location.Item2, CultureInfo.InvariantCulture.NumberFormat),location.Item3,location.Item4);
+                }
             }
             else
             {
