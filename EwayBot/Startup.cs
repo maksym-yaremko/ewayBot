@@ -1,12 +1,14 @@
 using EwayBot.BLL;
 using EwayBot.DAL.Context;
 using EwayBot.DAL.Services;
+using EwayBot.DTO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Telegram.Bot;
 
 namespace EwayBot
 {
@@ -23,6 +25,7 @@ namespace EwayBot
         {
             services.AddDbContext<ApplicationContext>(options =>
                      options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
+            services.Configure<SensitiveTokens>(Configuration.GetSection("SensitiveTokens"));
             services.AddControllers();
 
         }
@@ -45,7 +48,9 @@ namespace EwayBot
                 endpoints.MapControllers();
             });
 
-            BotClient.GetBotClientAsync().Wait();
+            TelegramBotClient botClient = new TelegramBotClient("1096673257:AAGq_sGCLZ2z-g6IPdtsTuwTcfj1qt0DfGM");
+            string hook = string.Format("https://a57b96de.ngrok.io/api/message/update");
+            botClient.SetWebhookAsync(hook);
         }
     }
 }

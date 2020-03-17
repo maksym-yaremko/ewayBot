@@ -1,4 +1,8 @@
-﻿using EwayBot.BLL.Commands;
+﻿using EwayBot.BLL.Callbacks;
+using EwayBot.BLL.Commands;
+using EwayBot.BLL.Initializers;
+using EwayBot.DTO;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -8,10 +12,19 @@ namespace EwayBot.BLL
     public class BotClient
     {
         public static TelegramBotClient botClient;
+        public CommandsInitializer commandsInitializer;
+        public CallbacksInitializer callbacksInitializer;
+        public BotClient(IOptions<SensitiveTokens> sensitiveTokens)
+        {
+            commandsInitializer = new CommandsInitializer(sensitiveTokens);
+            callbacksInitializer = new CallbacksInitializer();
+        }
 
-        public static List<ICommand> Commands => CommandsInitializer.commandsList;
+        public List<ICommand> Commands => commandsInitializer.commandsList;
+        public List<ICallback> Callbacks => callbacksInitializer.callbacksList;
 
-        public static async Task<TelegramBotClient> GetBotClientAsync()
+
+        public async Task<TelegramBotClient> GetBotClientAsync()
         {
             if (botClient != null)
             {
@@ -19,7 +32,7 @@ namespace EwayBot.BLL
             }
 
             botClient = new TelegramBotClient("1096673257:AAGq_sGCLZ2z-g6IPdtsTuwTcfj1qt0DfGM");
-            string hook = string.Format("https://bb605ff1.ngrok.io/api/message/update");
+            string hook = string.Format("https://a57b96de.ngrok.io/api/message/update");
             await botClient.SetWebhookAsync(hook);
             return botClient;
         }

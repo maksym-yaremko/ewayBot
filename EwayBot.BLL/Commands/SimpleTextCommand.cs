@@ -1,5 +1,7 @@
 ﻿using EwayBot.DAL.Constants;
 using EwayBot.DAL.Services;
+using EwayBot.DTO;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,15 +11,18 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace EwayBot.BLL.Commands
 {
     public class SimpleTextCommand : ICommand
     {
         public UserMessageService userMessageService { get; set; }
-        public SimpleTextCommand()
+        public EwayApiService ewayApiService { get; set; }
+        public SimpleTextCommand(IOptions<SensitiveTokens> sensitiveTokens)
         {
             userMessageService = new UserMessageService();
+            ewayApiService = new EwayApiService(sensitiveTokens);
         }
         public bool Contains(Message message, string previousMessage)
         {
@@ -29,6 +34,14 @@ namespace EwayBot.BLL.Commands
 
         public async Task Execute(Message message, TelegramBotClient botClient, string previousMessage)
         {
+            var inlineKeyboard = new InlineKeyboardMarkup(new[]
+                    {
+                        new []
+                        {
+                            InlineKeyboardButton.WithCallbackData("Обрати", "/stopMapCallback"),
+                        }
+                    });
+
             var chatId = message.Chat.Id;
 
             var userMessageRecord = userMessageService.Get(chatId);
@@ -43,16 +56,14 @@ namespace EwayBot.BLL.Commands
 
             if(previousMessage == Constants.SearchByStopName)
             {
-                using var client = new HttpClient();
                 
                 StopService stopService = new StopService();
                 var locations = stopService.GetLocation(message.Text);
 
                 foreach(var location in locations)
                 {
-                    var result =await client.GetAsync(@$"https://api.eway.in.ua/?login=smoliakandriy&password=m3ns2h36frT9c2Aqj&function=stops.GetStopInfo&city=lviv&id={location.Item4}");
-                    var res = result.Content.ReadAsStringAsync();
-                    await botClient.SendVenueAsync(chatId, float.Parse(location.Item1, CultureInfo.InvariantCulture.NumberFormat), float.Parse(location.Item2, CultureInfo.InvariantCulture.NumberFormat),location.Item3,location.Item4);
+                    var result = await ewayApiService.GetStopInfo(location.Item4);
+                    await botClient.SendVenueAsync(chatId, float.Parse(location.Item1, CultureInfo.InvariantCulture.NumberFormat), float.Parse(location.Item2, CultureInfo.InvariantCulture.NumberFormat),location.Item3,location.Item4, replyMarkup: inlineKeyboard);
                 }
             }
             else

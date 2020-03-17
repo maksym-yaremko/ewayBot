@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EwayBot.BLL\EwayBot.BLL.csproj" />
     <ProjectReference Include="..\EwayBot.DAL\EwayBot.DAL.csproj" />
+    <ProjectReference Include="..\EwayBot.DTO\EwayBot.DTO.csproj" />
   </ItemGroup>
 
 </Project>

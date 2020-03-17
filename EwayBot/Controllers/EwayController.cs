@@ -1,11 +1,14 @@
 ﻿using EwayBot.BLL;
 using EwayBot.BLL.Helpers;
 using EwayBot.DAL.Services;
+using EwayBot.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
 namespace EwayBot.Controllers
 {
@@ -13,9 +16,11 @@ namespace EwayBot.Controllers
     public class MessageController : Controller
     {
         public UserMessageService userMessageService { get; set; }
-        public MessageController()
+        public BotClient _botClient { get; set; }
+        public MessageController(IOptions<SensitiveTokens> sensitiveTokens)
         {
             userMessageService = new UserMessageService();
+            _botClient = new BotClient(sensitiveTokens);
         }
         public string lastMessage { get; set; }
 
@@ -38,14 +43,30 @@ namespace EwayBot.Controllers
                 Console.WriteLine(e.Message);
             }
 
-            var commands = BotClient.Commands;
+            var commands = _botClient.Commands;
+            var callbacks = _botClient.Callbacks;
 
-            var botClient = await BotClient.GetBotClientAsync();
+            var botClient = await _botClient.GetBotClientAsync();
 
             if (update == null)
             {
                 return Ok();
             }
+
+
+            if(update.Type == UpdateType.CallbackQuery)
+            {
+                foreach (var callback in callbacks)
+                {
+                    if (callback.Contains(update))
+                    {
+                        await callback.Execute(botClient,update);
+                        break;
+                    }
+                }
+                return Ok();
+            }
+
             var message = update.Message;
             var previousMessage = userMessageService.Get(update.Message.Chat.Id);
             if (previousMessage == null)
