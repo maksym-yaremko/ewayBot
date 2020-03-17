@@ -1,4 +1,5 @@
 ﻿using EwayBot.DAL.Context;
+using EwayBot.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,12 @@ namespace EwayBot.DAL.Services
         {
             var locations = db.Stops.ToList().Where(x=>x.Title.ToLower().Contains(stopName.ToLower())).Select(res => Tuple.Create(res.Lat, res.Lng,res.Title,res.Id));
             return locations;
+        }
+
+        public Stop GetById(string stopId)
+        {
+            var stop = db.Stops.SingleOrDefault(x => x.Id==stopId);
+            return stop;
         }
     }
 }

@@ -12,9 +12,9 @@ namespace EwayBot.DAL.Services
 {
     public class EwayApiService
     {
-        private SensitiveTokens _sensitiveTokens { get; set; }
-        private JavaScriptSerializer _serializer { get; set; }
-        private HttpClient _httpClient { get; set; }
+        public SensitiveTokens _sensitiveTokens { get; set; }
+        public JavaScriptSerializer _serializer { get; set; }
+        public HttpClient _httpClient { get; set; }
         public EwayApiService(IOptions<SensitiveTokens> sensitiveTokens)
         {
             _sensitiveTokens = sensitiveTokens.Value;
@@ -29,6 +29,15 @@ namespace EwayBot.DAL.Services
             content = content.Replace("@attributes", "attributes");
 
             var result = _serializer.Deserialize<GetStopInfoModel>(content);
+            return result;
+        }
+
+        public async Task<GetStopsNearPointModel> GetStopsNearPoint(string lat,string lng)
+        {
+            var response = await _httpClient.GetAsync($"{_sensitiveTokens.EasyWayApiToken}&function=stops.GetStopsNearPoint&city=lviv&lat={lat}&lng={lng}");
+            var content = await response.Content.ReadAsStringAsync();
+
+            var result = _serializer.Deserialize<GetStopsNearPointModel>(content);
             return result;
         }
     }

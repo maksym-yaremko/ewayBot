@@ -1,4 +1,5 @@
-﻿using EwayBot.BLL.Callbacks;
+﻿using EwayBot.BLL.Buttons;
+using EwayBot.BLL.Callbacks;
 using EwayBot.BLL.Commands;
 using EwayBot.BLL.Initializers;
 using EwayBot.DTO;
@@ -14,14 +15,17 @@ namespace EwayBot.BLL
         public static TelegramBotClient botClient;
         public CommandsInitializer commandsInitializer;
         public CallbacksInitializer callbacksInitializer;
+        public ButtonsInitializer buttonsInitializer;
         public BotClient(IOptions<SensitiveTokens> sensitiveTokens)
         {
             commandsInitializer = new CommandsInitializer(sensitiveTokens);
-            callbacksInitializer = new CallbacksInitializer();
+            callbacksInitializer = new CallbacksInitializer(sensitiveTokens);
+            buttonsInitializer = new ButtonsInitializer(sensitiveTokens);
         }
 
         public List<ICommand> Commands => commandsInitializer.commandsList;
         public List<ICallback> Callbacks => callbacksInitializer.callbacksList;
+        public List<IButton> Buttons => buttonsInitializer.buttonsList;
 
 
         public async Task<TelegramBotClient> GetBotClientAsync()

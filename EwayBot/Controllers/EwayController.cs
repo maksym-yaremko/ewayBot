@@ -45,6 +45,7 @@ namespace EwayBot.Controllers
 
             var commands = _botClient.Commands;
             var callbacks = _botClient.Callbacks;
+            var buttons = _botClient.Buttons;
 
             var botClient = await _botClient.GetBotClientAsync();
 
@@ -64,6 +65,28 @@ namespace EwayBot.Controllers
                         break;
                     }
                 }
+                return Ok();
+            }
+
+            if(update.Message.Type == MessageType.Location)
+            {
+                var mes = update.Message;
+                var prevMessage = userMessageService.Get(update.Message.Chat.Id);
+                if (prevMessage == null)
+                {
+                    userMessageService.Create(update.Message.Chat.Id, update.Message.Text);
+                }
+                var newPrevMessage = userMessageService.Get(update.Message.Chat.Id);
+
+                foreach (var button in buttons)
+                {
+                    if (button.Contains(mes, newPrevMessage.Message))
+                    {
+                        await button.Execute(mes, botClient, newPrevMessage.Message);
+                        break;
+                    }
+                }
+
                 return Ok();
             }
 

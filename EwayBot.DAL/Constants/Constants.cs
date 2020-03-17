@@ -9,6 +9,7 @@
         public static string StopName = @"stopName";
 
         //callbacks
-        public static string StopMapCallback = @"/stopMapCallback";
+        public static string StopMapCallback = @"/stopMapCallback"; 
+        public static string SearchStopByYourLocation = @"/searchStopByYourLocation";
     }
 }
