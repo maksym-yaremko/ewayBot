@@ -7,9 +7,12 @@
         public static string Info = @"/info";
         public static string SearchByStopName = @"/searchByStopName";
         public static string StopName = @"stopName";
+        public static string SearchStopByYourLocation = @"/searchStopByYourLocation";
 
         //callbacks
-        public static string StopMapCallback = @"/stopMapCallback"; 
-        public static string SearchStopByYourLocation = @"/searchStopByYourLocation";
+        public static string StopMapCallback = @"/stopMapCallback";
+        public static string LocationMapCallback = @"/locationMapCallback";
+
+
     }
 }

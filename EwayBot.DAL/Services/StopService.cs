@@ -21,6 +21,12 @@ namespace EwayBot.DAL.Services
             return locations;
         }
 
+        public Stop GetStopByLocation(string lat,string lng)
+        {
+            var stop = db.Stops.SingleOrDefault(x => x.Lat == lat && x.Lng == lng);
+            return stop;
+        }
+
         public Stop GetById(string stopId)
         {
             var stop = db.Stops.SingleOrDefault(x => x.Id==stopId);

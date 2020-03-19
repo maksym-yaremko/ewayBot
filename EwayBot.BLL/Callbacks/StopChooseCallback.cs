@@ -22,7 +22,7 @@ namespace EwayBot.BLL.Callbacks
             //if (fullObject.Message.Type != MessageType.Text)
             //    return false;
 
-            return fullObject.CallbackQuery.Data.Contains(Constants.StopMapCallback);
+            return fullObject.CallbackQuery.Data.Contains(Constants.StopMapCallback) || fullObject.CallbackQuery.Data.Contains(Constants.LocationMapCallback);
         }
 
         public async Task Execute(TelegramBotClient botClient, Update fullObject, string previousMessage = null)
@@ -31,31 +31,35 @@ namespace EwayBot.BLL.Callbacks
 
             var getStopInfo = await ewayApiService.GetStopInfo(fullObject.CallbackQuery.Message.Venue.Address);
 
+            var getStopInfoNewModel = await ewayApiService.GetStopInfoDestination(fullObject.CallbackQuery.Message.Venue.Address);
+
             var transportInfo = $"Знайдено маршрутки по зупинці\n";
 
-            foreach (var stop in getStopInfo.stop)
+            foreach (var route in getStopInfoNewModel.routes)
             {
-                foreach (var trans in stop.Transports.transport)
+                if (route.transportKey == "marshrutka")
                 {
-                    foreach (var route in trans.Route)
+                    if (route.timeLeftFormatted != null)
                     {
-                        if (trans.Attributes.Key == "marshrutka")
-                        {
-                            transportInfo += "🚍" + route.Title + "->" + route.Next_Vehicle + "\n";
-                        }
-                        if (trans.Attributes.Key == "bus")
-                        {
-                            transportInfo += "🚌" + route.Title + "->" + route.Next_Vehicle  +"\n";
-                        }
-                        if (trans.Attributes.Key == "trol")
-                        {
-                            transportInfo += "🚎" + route.Title + "->" + route.Next_Vehicle + "\n";
-                        }
+                        transportInfo += "🚍 " + "*" + route.title + "*" + "_" +"  (" + route.directionTitle + ") " + "_" + " -> " + "*" + route.timeLeftFormatted + "*" + "\n";
                     }
                 }
-
-
+                if (route.transportKey == "bus")
+                {
+                    if (route.timeLeftFormatted != null)
+                    {
+                        transportInfo += "🚌 " + "*" + route.title + "*" + "_" + "  (" + route.directionTitle + ") " + "_" + " -> " + "*"+ route.timeLeftFormatted + "*"+ "\n";
+                    }
+                }
+                if (route.transportKey == "trol")
+                {
+                    if (route.timeLeftFormatted != null)
+                    {
+                        transportInfo += "🚎 " + "*" + route.title + "*" + "_" + "  (" + route.directionTitle + ") " + "_" + " -> " + "*"+ route.timeLeftFormatted + "*"+"\n";
+                    }
+                }
             }
+
             if (getStopInfo.stop.Count == 0)
             {
                 transportInfo = "Не знайдено зупинок в районі 300 метрів";
