@@ -26,7 +26,7 @@ namespace EwayBot.BLL.Buttons
         }
         public bool Contains(Message message, string previousMessage = null)
         {
-            return previousMessage.Contains(Constants.SearchStopByYourLocation);
+            return true;
         }
 
         public async Task Execute(Message message, TelegramBotClient botClient, string previousMessage = null)
@@ -35,7 +35,7 @@ namespace EwayBot.BLL.Buttons
             
             var chatId = message.Chat.Id;
             var result = await ewayApiService.GetStopsNearPoint(message.Location.Latitude.ToString(CultureInfo.InvariantCulture),message.Location.Longitude.ToString(CultureInfo.InvariantCulture));
-            var messageRegardingStopsByLocation = "Найближчі зупинки ⤵️"; 
+            var messageRegardingStopsByLocation = "Найближчі зупинки знайдені за вашою локацією ⤵️"; 
             foreach(var res in result.stop)
             {
                 var sCoord = new GeoCoordinate(message.Location.Latitude, message.Location.Longitude);
@@ -47,10 +47,9 @@ namespace EwayBot.BLL.Buttons
             }
             if (result.stop.Count == 0)
             {
-                messageRegardingStopsByLocation = "Не знайдено зупинок поблизу вас";
+                messageRegardingStopsByLocation = "Не знайдено зупинок в радіусі 300 метрів";
             }
 
-            //var keyboardMarkup = new InlineKeyboardMarkup(GetInlineKeyboard(buttonItem));
             await botClient.SendTextMessageAsync(chatId, messageRegardingStopsByLocation, parseMode: ParseMode.Markdown);
 
             foreach (var stop in result.stop)

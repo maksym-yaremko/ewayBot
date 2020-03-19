@@ -71,18 +71,12 @@ namespace EwayBot.Controllers
             if(update.Message.Type == MessageType.Location)
             {
                 var mes = update.Message;
-                var prevMessage = userMessageService.Get(update.Message.Chat.Id);
-                if (prevMessage == null)
-                {
-                    userMessageService.Create(update.Message.Chat.Id, update.Message.Text);
-                }
-                var newPrevMessage = userMessageService.Get(update.Message.Chat.Id);
 
                 foreach (var button in buttons)
                 {
-                    if (button.Contains(mes, newPrevMessage.Message))
+                    if (button.Contains(mes))
                     {
-                        await button.Execute(mes, botClient, newPrevMessage.Message);
+                        await button.Execute(mes, botClient);
                         break;
                     }
                 }

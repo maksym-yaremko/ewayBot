@@ -40,7 +40,7 @@ namespace EwayBot.BLL.Commands
 
 
 
-            await botClient.SendTextMessageAsync(chatId, $"Тобі доступні наступні команди:\nПошук маршрутів за назвою зупинки /searchByStopName\nПошук за локацією\n/searchStopByYourLocation");
+            await botClient.SendTextMessageAsync(chatId, $"Тобі доступні наступні команди:\n🚏 /searchByStopName - пошук за назвою зупинки \n📍 /searchStopByYourLocation - пошук за локацією");
 
 
         }
