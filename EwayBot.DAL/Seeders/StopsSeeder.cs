@@ -49,7 +49,11 @@ namespace EwayBot.DAL.Seeders
             ParseData();
             if (!context.Stops.Any())
             {
-                for(int i = 0; i < ids.Count; i++) {
+                var counter = 0;
+                var glovalCounter = 0;
+                for (int i = 0; i < ids.Count; i++) {
+                    counter++;
+                    glovalCounter++;
                     context.Stops.AddRange(
                         new Stop
                         {
@@ -59,8 +63,12 @@ namespace EwayBot.DAL.Seeders
                             Lat = lat[i]
                         }
                     );
+                    if (counter == 100 || glovalCounter == ids.Count)
+                    {
+                        context.SaveChanges();
+                        counter = 0;
+                    }
                 }
-                context.SaveChanges();
             }
         }
     }

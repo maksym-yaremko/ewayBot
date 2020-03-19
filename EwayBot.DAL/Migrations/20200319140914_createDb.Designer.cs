@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EwayBot.DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200311221823_AddCreateTablE")]
-    partial class AddCreateTablE
+    [Migration("20200319140914_createDb")]
+    partial class createDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
