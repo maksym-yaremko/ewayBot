@@ -68,5 +68,14 @@ namespace EwayBot.DAL.Services
             var result = _serializer.Deserialize<GetRouteGPSModel>(content);
             return result;
         }
+
+        public async Task<GetRoutesListModel> GetRoutesList()
+        {
+            var response = await _httpClient.GetAsync($"{_sensitiveTokens.EasyWayApiToken}&function=cities.GetRoutesList&city=lviv");
+            var content = await response.Content.ReadAsStringAsync();
+
+            var result = _serializer.Deserialize<GetRoutesListModel>(content);
+            return result;
+        }
     }
 }

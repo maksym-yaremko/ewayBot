@@ -25,7 +25,7 @@ namespace EwayBot.BLL.Commands
             if (message.Type != MessageType.Text)
                 return false;
 
-            return previousMessage.Contains(Constants.SearchByStopName);
+            return previousMessage.Contains(Constants.SearchByStopName) && !(message.Text.Contains(Constants.Start) || message.Text.Contains(Constants.Info) || message.Text.Contains(Constants.SearchByStopName) || message.Text.Contains(Constants.SearchByTransportNumber) || message.Text.Contains(Constants.SearchStopByYourLocation));
         }
 
         public async Task Execute(Message message, TelegramBotClient botClient, string previousMessage)

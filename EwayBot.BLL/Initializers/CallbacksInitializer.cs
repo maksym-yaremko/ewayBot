@@ -12,7 +12,9 @@ namespace EwayBot.BLL.Initializers
         {
             callbacksList = new List<ICallback>
             {
-            new StopChooseCallback(sensitiveTokens)
+            new StopChooseCallback(sensitiveTokens),
+            new TtransportTypeChooseCallback(sensitiveTokens),
+            new NextTransportNameCallback(sensitiveTokens)
             };
         }
     }

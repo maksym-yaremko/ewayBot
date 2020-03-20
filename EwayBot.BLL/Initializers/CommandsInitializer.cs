@@ -17,7 +17,8 @@ namespace EwayBot.BLL.Initializers
             new SearchByStopNameCommand(),
             new StopTextCommand(sensitiveTokens),
             new SearchStopByYourLocation(),
-            new SimpleTextCommand()
+            new SimpleTextCommand(),
+            new SearchByTransportNumberCommand(sensitiveTokens)
             };
         }
     }

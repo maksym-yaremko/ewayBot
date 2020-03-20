@@ -8,7 +8,12 @@ namespace EwayBot.DAL.Models
     {
         public string Id { get; set; }
         public string Title { get; set; }
+        public string Start_Position { get; set; }
+        public string Stop_Position { get; set; }
+        public string Transport { get; set; }
+        public string Gps_Id { get; set; }
         public string Has_Gps { get; set; }
+        public int Gps_Count { get; set; }
         public int? Next_Vehicle { get; set; }
         public int? Second_Vehicle { get; set; }
         public string Type { get; set; }
