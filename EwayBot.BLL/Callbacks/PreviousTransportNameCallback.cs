@@ -96,7 +96,7 @@ namespace EwayBot.BLL.Callbacks
                         new InlineKeyboardButton
                         {
                             Text = trpName[finalIndex],
-                            CallbackData = "/transportNameCallback" + trpName[finalIndex]
+                            CallbackData = transportType + "/transportNameCallback" + trpName[finalIndex]
                         }
                     };
                     }
@@ -138,7 +138,7 @@ namespace EwayBot.BLL.Callbacks
                         new InlineKeyboardButton
                         {
                             Text = trpName[index],
-                            CallbackData = "/transportNameCallback" + trpName[index]
+                            CallbackData = transportType + "/transportNameCallback" + trpName[index]
                         }
                     };
                     }
@@ -172,7 +172,7 @@ namespace EwayBot.BLL.Callbacks
                         new InlineKeyboardButton
                         {
                             Text = trpName[index],
-                            CallbackData = "/transportNameCallback" + trpName[index]
+                            CallbackData = transportType + "/transportNameCallback" + trpName[index]
                         }
                     };
                 }
