@@ -49,7 +49,7 @@ namespace EwayBot
             });
 
             TelegramBotClient botClient = new TelegramBotClient("1096673257:AAGq_sGCLZ2z-g6IPdtsTuwTcfj1qt0DfGM");
-            string hook = string.Format("https://065ff8c4.ngrok.io/api/message/update");
+            string hook = string.Format("https://f196f2d9.ngrok.io/api/message/update");
             botClient.SetWebhookAsync(hook);
         }
     }

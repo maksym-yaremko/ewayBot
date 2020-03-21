@@ -24,15 +24,6 @@ namespace EwayBot.BLL.Callbacks
         {
             var callBackMessage = fullObject.CallbackQuery.Data;
 
-            var stringSplitByNextTransportNameCallbackButton = callBackMessage.Split(new string[] { Constants.NextTransportNameCallbackButton },StringSplitOptions.None);
-
-            var indexOfTransportInList = stringSplitByNextTransportNameCallbackButton[0];
-
-            var stringSplitByEditedMessagedId = stringSplitByNextTransportNameCallbackButton[1].Split(new string[] { Constants.EditedMessagedId }, StringSplitOptions.None);
-
-            var transportType = stringSplitByEditedMessagedId[0];
-            var messageId = stringSplitByEditedMessagedId[1];
-
             return callBackMessage.Contains(Constants.NextTransportNameCallbackButton);
         }
 

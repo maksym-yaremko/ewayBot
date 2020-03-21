@@ -122,11 +122,6 @@ namespace EwayBot.BLL.Callbacks
                     {
                         new InlineKeyboardButton
                         {
-                            Text = "Previous",
-                            CallbackData = 10 + "/previousTransportNameCallbackButton" + transportType + "/editedMessagedId"+ fullObject.CallbackQuery.Message.MessageId
-                        },
-                        new InlineKeyboardButton
-                        {
                             Text = "Next",
                             CallbackData = 10 + "/nextTransportNameCallbackButton" + transportType + "/editedMessagedId"+ fullObject.CallbackQuery.Message.MessageId
                         }
