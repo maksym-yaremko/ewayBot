@@ -12,10 +12,15 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Nancy" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="SeedData\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EwayBot.DTO\EwayBot.DTO.csproj" />
   </ItemGroup>
 
 </Project>

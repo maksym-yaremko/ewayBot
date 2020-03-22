@@ -2,7 +2,7 @@
 
 namespace EwayBot.DAL.Migrations
 {
-    public partial class CreateTable : Migration
+    public partial class createDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
